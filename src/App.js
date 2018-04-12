@@ -5,7 +5,10 @@ import {searchGoogleBooks} from './controllers/controllers.js'
 class App extends Component {
     constructor(props) {
         super(props)
-        this.state ={}
+        this.state ={
+            author: [],
+            image: ''
+        }
         this.setState = this
             .setState
             .bind(this)
@@ -21,10 +24,16 @@ class App extends Component {
         }
         rp(bookRequest).then(res => {
             console.log(res)
-            this.setState({title: res.items[0].volumeInfo.title,
-            author: res.items[0].volumeInfo.authors,
-             image : res.items[0].volumeInfo.imageLinks.thumbnail
-          })
+            if (res.items[0].volumeInfo.imageLinks.thumbnail){
+                let image = res.items[0].volumeInfo.imageLinks.thumbnail
+                this.setState({image})
+            }
+            if (res.items[0].volumeInfo.authors){
+                let author = res.items[0].volumeInfo.authors
+                console.log(author)
+                this.setState({author})
+            }
+            this.setState({title: res.items[0].volumeInfo.title})
         })
 
     }
